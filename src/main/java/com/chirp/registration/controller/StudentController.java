@@ -1,7 +1,7 @@
 package com.chirp.registration.controller;
 
-import com.chirp.registration.model.Student;
 import com.chirp.registration.controller.StudentAPIService;
+import com.chirp.registration.entity.Student;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 
@@ -27,7 +27,7 @@ public class StudentController
     }
 
     @GetMapping("{studentRegistrationNumber}")
-    public Student getStudentDetails(@PathVariable String studentRegistrationNumber)
+    public com.chirp.registration.entity.Student getStudentDetails(@PathVariable String studentRegistrationNumber)
     {
         return studentAPIService.getStudentDetails( studentRegistrationNumber );
     }

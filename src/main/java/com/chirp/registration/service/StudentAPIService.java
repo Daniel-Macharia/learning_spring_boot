@@ -21,10 +21,10 @@ public class StudentAPIService
 
     public StudentAPIService()
     {
-        for( int i = 1; i <= 5; i++ )
-        {
-            students.add( new Student("r" + i, "Name " + i, (i % 2 == 0) ? "Male" : "Female") );
-        }
+//        for( int i = 1; i <= 5; i++ )
+//        {
+//            students.add( new Student("r" + i, "Name " + i, (i % 2 == 0) ? "Male" : "Female") );
+//        }
     }
 
     public List<com.chirp.registration.entity.Student> getAllStudentDetails()
@@ -33,39 +33,42 @@ public class StudentAPIService
     }
 
 
-    public Student getStudentDetails(String studentRegistrationNumber)
+    public com.chirp.registration.entity.Student getStudentDetails(String studentRegistrationNumber)
     {
         Student s = new Student();
         System.out.println("\nReg. NO: " + studentRegistrationNumber + "\n");
 
-        for( Student student : students )
+        List<com.chirp.registration.entity.Student> students = studentRepository.findAll();
+
+        for( com.chirp.registration.entity.Student student : students )
         {
-            if( student.getStudentRegistrationNumber().equals( studentRegistrationNumber ) )
-            {
-                s.setStudentRegistrationNumber( new String( student.getStudentRegistrationNumber() ) );
-                s.setStudentName( new String(student.getStudentName() ) );
-                s.setStudentGender( new String( student.getStudentGender() ) );
-                break;
-            }
+//            if( student.getStudentRegistrationNumber().equals( studentRegistrationNumber ) )
+//            {
+//                s.setStudentRegistrationNumber( new String( student.getStudentRegistrationNumber() ) );
+//                s.setStudentName( new String(student.getStudentName() ) );
+//                s.setStudentGender( new String( student.getStudentGender() ) );
+//                break;
+//            }
         }
 
-        return s;
+        return students.getFirst();
     }
 
-    public List<Student> getStudentDetailsByRegistrationNumberOrByName( String studentRegistrationNumber, String studentName)
+    public List<com.chirp.registration.entity.Student> getStudentDetailsByRegistrationNumberOrByName(String studentRegistrationNumber, String studentName)
     {
-        List<Student> studentList = new ArrayList<>();
+        List<com.chirp.registration.entity.Student> studentList = new ArrayList<>();
         System.out.println("\nReg. NO: " + studentRegistrationNumber + "\n");
 
-        for( Student student : students )
+        List<com.chirp.registration.entity.Student> students = studentRepository.findAll();
+        for( com.chirp.registration.entity.Student student : students )
         {
-            if( student.getStudentRegistrationNumber().equals( studentRegistrationNumber )
-                    || student.getStudentName().equals( studentName ) )
-            {
-                studentList.add(new Student( new String( student.getStudentRegistrationNumber() ),
-                        new String(student.getStudentName() ),
-                        new String( student.getStudentGender() ) ));
-            }
+//            if( student.getStudentRegistrationNumber().equals( studentRegistrationNumber )
+//                    || student.getStudentName().equals( studentName ) )
+//            {
+//                studentList.add(new Student( new String( student.getStudentRegistrationNumber() ),
+//                        new String(student.getStudentName() ),
+//                        new String( student.getStudentGender() ) ));
+//            }
         }
 
         return studentList;
