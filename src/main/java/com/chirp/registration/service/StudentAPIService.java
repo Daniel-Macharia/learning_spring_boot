@@ -79,4 +79,17 @@ public class StudentAPIService
         studentRepository.save(student);
     }
 
+    public void updateStudentData( Long studentId, com.chirp.registration.entity.Student student)
+    {
+        com.chirp.registration.entity.Student st = studentRepository.getReferenceById(studentId);
+        st = student;
+
+        studentRepository.save(st);
+    }
+
+    public void deleteStudent( Long studentId )
+    {
+        studentRepository.deleteById( studentId );
+    }
+
 }

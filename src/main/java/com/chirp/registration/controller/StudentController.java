@@ -23,28 +23,75 @@ public class StudentController
     @GetMapping("")
     public List<com.chirp.registration.entity.Student> getAllStudentDetails()
     {
-        return studentAPIService.getAllStudentDetails();
+        List<Student> students = new ArrayList<>();
+        try{
+            students = studentAPIService.getAllStudentDetails();
+        }catch (Exception e) {
+            students.add( Student.builder().studentName("{\n\"status\":\"failed\"\n\"reason\":\"" + e + "\"\n}").build() );
+            return students;
+        }
+        return students;
     }
 
     @GetMapping("{studentRegistrationNumber}")
     public com.chirp.registration.entity.Student getStudentDetails(@PathVariable String studentRegistrationNumber)
     {
-        return studentAPIService.getStudentDetails( studentRegistrationNumber );
+        Student student;
+        try{
+            student = studentAPIService.getStudentDetails( studentRegistrationNumber );
+        }catch (Exception e) {
+            return Student.builder().studentName("{\n\"status\":\"failed\"\n\"reason\":\"" + e + "\"\n}").build();
+        }
+        return student;
     }
 
     @GetMapping("{studentRegistrationNumber}/{studentName}")
     public List<Student> getStudentDetailsByRegistrationNumberOrByName(@PathVariable String studentRegistrationNumber, @PathVariable String studentName)
     {
-        return studentAPIService.getStudentDetailsByRegistrationNumberOrByName( studentRegistrationNumber, studentName );
+        List<Student> students = new ArrayList<>();
+        try{
+            students = studentAPIService.getStudentDetailsByRegistrationNumberOrByName( studentRegistrationNumber, studentName );
+        }catch (Exception e) {
+            students.add( Student.builder().studentName("{\n\"status\":\"failed\"\n\"reason\":\"" + e + "\"\n}").build() );
+            return students;
+        }
+        return students;
     }
 
     @PostMapping("/add")
     public String saveNewStudent(@RequestBody com.chirp.registration.entity.Student student)
     {
-        System.out.println("\n\nNew student = " + student);
-        studentAPIService.saveNewStudent(student);
+        try{
+            studentAPIService.saveNewStudent(student);
+        } catch (Exception e) {
+            return "{\n\"status\":\"failed\"\n\"reason\":\"" + e + "\"\n}";
+        }
 
-        return "{\"status\":\"added student successfully\"}";
+        return "{\n\"status\":\"added student successfully\"\n}";
+    }
+
+
+    @PutMapping("/update/{studentId}")
+    public String updateStudent(@PathVariable Long studentId, @RequestBody Student student)
+    {
+        try{
+            studentAPIService.updateStudentData( studentId, student);
+        }catch (Exception e) {
+            return "{\n\"status\":\"failed\"\n\"reason\":\"" + e + "\"\n}";
+        }
+
+        return "{\n\"status\":\"student updated successfully\"\n}";
+    }
+
+    @DeleteMapping("/delete/{studentId}")
+    public String deleteStudent(@PathVariable Long studentId)
+    {
+        try{
+            studentAPIService.deleteStudent(studentId);
+        }catch (Exception e) {
+            return "{\n\"status\":\"failed\"\n\"reason\":\"" + e + "\"\n}";
+        }
+        return "{\n\"status\":\"Student successfully deleted\"\n}";
     }
 
 
