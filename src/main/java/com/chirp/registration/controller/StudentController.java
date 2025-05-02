@@ -38,7 +38,7 @@ public class StudentController
     {
         Student student;
         try{
-            student = studentAPIService.getStudentDetails( studentRegistrationNumber );
+            student = studentAPIService.getStudentDetailsByRegistrationNumber( studentRegistrationNumber );
         }catch (Exception e) {
             return Student.builder().studentName("{\n\"status\":\"failed\"\n\"reason\":\"" + e + "\"\n}").build();
         }
@@ -62,6 +62,7 @@ public class StudentController
     public String saveNewStudent(@RequestBody com.chirp.registration.entity.Student student)
     {
         try{
+            System.out.println("student = " + student);
             studentAPIService.saveNewStudent(student);
         } catch (Exception e) {
             return "{\n\"status\":\"failed\"\n\"reason\":\"" + e + "\"\n}";
@@ -71,11 +72,12 @@ public class StudentController
     }
 
 
-    @PutMapping("/update/{studentId}")
-    public String updateStudent(@PathVariable Long studentId, @RequestBody Student student)
+    @PutMapping("/update/{studentRegistrationNumber}")
+    public String updateStudent(@PathVariable String studentRegistrationNumber, @RequestBody Student student)
     {
         try{
-            studentAPIService.updateStudentData( studentId, student);
+            System.out.println("student = " + student);
+            studentAPIService.updateStudentName( student.getStudentRegistrationNumber(), student);
         }catch (Exception e) {
             return "{\n\"status\":\"failed\"\n\"reason\":\"" + e + "\"\n}";
         }
@@ -83,11 +85,11 @@ public class StudentController
         return "{\n\"status\":\"student updated successfully\"\n}";
     }
 
-    @DeleteMapping("/delete/{studentId}")
-    public String deleteStudent(@PathVariable Long studentId)
+    @DeleteMapping("/delete/{studentRegistrationNumber}")
+    public String deleteStudent(@PathVariable String studentRegistrationNumber)
     {
         try{
-            studentAPIService.deleteStudent(studentId);
+            studentAPIService.deleteStudent(studentRegistrationNumber);
         }catch (Exception e) {
             return "{\n\"status\":\"failed\"\n\"reason\":\"" + e + "\"\n}";
         }

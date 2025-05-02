@@ -33,45 +33,19 @@ public class StudentAPIService
     }
 
 
-    public com.chirp.registration.entity.Student getStudentDetails(String studentRegistrationNumber)
+    public com.chirp.registration.entity.Student getStudentDetailsByRegistrationNumber(String studentRegistrationNumber)
     {
-        Student s = new Student();
-        System.out.println("\nReg. NO: " + studentRegistrationNumber + "\n");
-
-        List<com.chirp.registration.entity.Student> students = studentRepository.findAll();
-
-        for( com.chirp.registration.entity.Student student : students )
-        {
-//            if( student.getStudentRegistrationNumber().equals( studentRegistrationNumber ) )
-//            {
-//                s.setStudentRegistrationNumber( new String( student.getStudentRegistrationNumber() ) );
-//                s.setStudentName( new String(student.getStudentName() ) );
-//                s.setStudentGender( new String( student.getStudentGender() ) );
-//                break;
-//            }
-        }
-
-        return students.getFirst();
+        return studentRepository.getStudentByStudentRegistrationNumber(
+                studentRegistrationNumber
+        );
     }
 
     public List<com.chirp.registration.entity.Student> getStudentDetailsByRegistrationNumberOrByName(String studentRegistrationNumber, String studentName)
     {
-        List<com.chirp.registration.entity.Student> studentList = new ArrayList<>();
-        System.out.println("\nReg. NO: " + studentRegistrationNumber + "\n");
-
-        List<com.chirp.registration.entity.Student> students = studentRepository.findAll();
-        for( com.chirp.registration.entity.Student student : students )
-        {
-//            if( student.getStudentRegistrationNumber().equals( studentRegistrationNumber )
-//                    || student.getStudentName().equals( studentName ) )
-//            {
-//                studentList.add(new Student( new String( student.getStudentRegistrationNumber() ),
-//                        new String(student.getStudentName() ),
-//                        new String( student.getStudentGender() ) ));
-//            }
-        }
-
-        return studentList;
+        return studentRepository.getStudentByStudentRegistrationNumberOrStudentName(
+                studentRegistrationNumber,
+                studentName
+        );
     }
 
     public void saveNewStudent(com.chirp.registration.entity.Student student)
@@ -79,17 +53,14 @@ public class StudentAPIService
         studentRepository.save(student);
     }
 
-    public void updateStudentData( Long studentId, com.chirp.registration.entity.Student student)
+    public void updateStudentName( String studentRegistrationNumber, com.chirp.registration.entity.Student student)
     {
-        com.chirp.registration.entity.Student st = studentRepository.getReferenceById(studentId);
-        st = student;
-
-        studentRepository.save(st);
+        studentRepository.updateStudentName( studentRegistrationNumber, student.getStudentName());
     }
 
-    public void deleteStudent( Long studentId )
+    public void deleteStudent( String studentRegistrationNumber )
     {
-        studentRepository.deleteById( studentId );
+        studentRepository.deleteStudentByStudentRegistrationNumber( studentRegistrationNumber );
     }
 
 }
